@@ -2,14 +2,14 @@ import pyttsx3
 import datetime
 import speech_recognition as sr 
 import wikipedia 
-import smtplib
 import webbrowser as wb
 import os
 import pyautogui
 import psutil
-import pyjokes
 import dbcall2 as d
 import time
+from services.entertainment import music, jokes
+from services.popup import popup
 
 db = d.Dtbase()
 db.queryDb()
@@ -75,6 +75,16 @@ def userLogin():
                 userLogin()
     return loginsuccess
 
+def setupMail(username):
+    speak('Please enter your gmail address!')
+    email_address = popup('Email', 'Please type in your gmail address!')
+    speak('''Please enter your password. If you have set up two factor authentication on your google account, then this should be your app password.\
+        Otherwise you should enter your gmail password.''')
+    email_password = popup('Password', 'Password:')
+    speak('If you used your gmail password, please ensure that you have configured your google account to accept connections from less secure apps!!')
+    db.setupMail(email_address, email_password, username)
+    return
+
 def setupUser():
     speak("Hello User. I will be your virtual assistant. I'd like to get to know you! What is your name?")
     user_name = takeCommand()
@@ -92,9 +102,16 @@ def setupUser():
         else:
             speak("I had issues confirming the passphrase. Let's try that again. Please state the passphrase!")
             continue
-    db.setupApp(ai_call,user_name, passphrase) # run pass arguments into the setup app for insertion to database
-    db.queryDb()    
-    userLogin()        
+    db.setupApp(ai_call,user_name, passphrase) # pass user details to db
+    speak('Would you like to configure gmail address for mailing services?')
+    user_choice = takeCommand()
+    if user_choice == 'yes':
+        setupMail(user_name)
+    else:
+        speak('Skipping Mail Configuration...')
+        speak("If you would like to configure at a later time, say 'Configure Mail'")
+        db.queryDb()    
+        userLogin()        
     return
 
 def clock():
@@ -117,21 +134,18 @@ def cpu():
     battery = psutil.sensors_battery()
     speak('Battery is at ' + battery.percent)
 
-def jokes():
-    speak(pyjokes.get_joke())
-
 def dbCheck():
     if db.ai_name == '' or db.username == '':
         db.dbreset()
         setupUser()
     else:
-        userLogin()
-    return   
+        loginsuccess = userLogin()
+    return loginsuccess  
 
 
 if __name__ == "__main__":
-    dbCheck()
-    if True:
+    loginsuccess = dbCheck()
+    if loginsuccess == True:
         while True:
             query = takeCommand().lower()
 
@@ -162,26 +176,20 @@ if __name__ == "__main__":
                 os.system('shutdown /r /t 1')
             
             elif 'play songs' in query:
-                songs_dir = 'C:/Users/Michael J/Music'
-                songs = os.listdir(songs_dir)
-                for song in songs:
-                    os.startfile(os.path.join(songs_dir, song))
-
+                music()
+            elif 'make a joke' in query:
+                jokes()
             elif 'take a screenshot' in query:
                 screenshot()
                 speak('Your screenshot has been taken!!!')
-
             elif 'cpu '  in query:
                 cpu()
-            
-            elif 'joke' in  query:
-                jokes()
-            
+                        
             elif 'offline' in query:
                 speak("Going offline!")
                 quit()
 
-    elif userLogin() == False:
+    elif loginsuccess == False:
         speak('You must login to proceed')
         dbCheck()
 

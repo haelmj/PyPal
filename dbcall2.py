@@ -49,6 +49,11 @@ class Dtbase:
         Dtbase.conn.commit()
         return
 
+    def setupMail(self, email, password, uname):
+        Dtbase.cursor.execute('update AI_USER.INFO set Email = ? and EmailPassword = ? where Name = ?', (email, password, uname))
+        Dtbase.conn.commit()
+        return
+
     def remember(self, memdata):
         Dtbase.cursor.execute('insert into AI_USER.DATA values ?', (memdata))
         Dtbase.conn.commit()
