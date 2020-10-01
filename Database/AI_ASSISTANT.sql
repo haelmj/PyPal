@@ -24,7 +24,7 @@ go
 
 create table AI_USER.DATA(
 Memory varchar(max),
-CreatedAt date default getdate())
+ModifiedAt date default getdate())
 go
 
 --limit the number of rows to just one
@@ -42,11 +42,11 @@ as
 go
 
 create trigger LimTable 
-on ASSISTANT.AI
+on AI_USER.INFO
 after insert
 as
     declare @tableCount int
-    select @tableCount = Count(*) from ASSISTANT.AI
+    select @tableCount = Count(*) from AI_USER.INFO
 
     if @tableCount > 1
     begin
@@ -55,7 +55,7 @@ as
 go
 
 
---procedure to delete data in all tables
+--delete data in all tables
 create procedure dbreset
 as
 begin
@@ -64,8 +64,8 @@ delete from AI_USER.INFO
 delete from AI_USER.DATA
 end
 go
-
---procedure to create setup app
+exec dbreset
+--setup app
 create procedure setup
 @Aname varchar(20),
 @Uname varchar(20),
@@ -73,10 +73,29 @@ create procedure setup
 as 
 begin
 insert into ASSISTANT.AI values(@Aname, @Uname)
-insert into AI_USER.INFO values(@Uname, @Password)
+insert into AI_USER.INFO(Name, Passcode) values(@Uname, @Password)
 end
 go
 
+--setup email service
+create procedure mail
+@email varchar(30),
+@password nvarchar(100),
+@name varchar(20)
+as 
+begin
+update AI_USER.INFO 
+set Email = @email, EmailPassword = @password 
+where Name = @name
+end
+go
 --create procedures for retrieving memory data by date
 --create trigger for password encryption
-exec dbreset
+create trigger PassEncrypt
+on AI_USER.INFO
+after insert
+as
+declare @email varchar(30)
+declare @password nvarchar(100)
+select Email from inserted
+go

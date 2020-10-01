@@ -6,39 +6,40 @@ import smtplib
 import webbrowser as wb
 import os
 import pyautogui
-import psutil
-import pyjokes
+# import psuti
+
 
 
 class AI:
     engine = pyttsx3.init()
 
 
-    def __init__(self, name, engine, language, gender):
+    def __init__(self, name, language, gender):
         self.name = name
-        self.engine = engine
         self.language = language
         self.gender = gender
         return
 
-    def speak(self, audio):
-        self.engine.say(audio)
-        self.engine.runAndWait()
+    @staticmethod
+    def speak(audio):
+        AI.engine.say(audio)
+        AI.engine.runAndWait()
 
     def takeCommand(self):
         r = sr.Recognizer() # initialize the listener
-        with sr.Microphone() as source: # set listening device to microphone
+        m = sr.Microphone()
+        with m as source: # set listening device to microphone
             print("Listening...")
             r.pause_threshold = 1 # delay one second from program start before listening
             audio= r.listen(source)
 
         try:
             print("Voice Recognition in process...")
-            query = r.recognize_google(audio, language='en-US') #listen to audio
+            query = r.recognize_google(audio, language='en-UK') #listen to audio
             print(query)
         
         except Exception as e:
             print(e)
-            speak("Say that again please...")
-            return
+            self.speak("Say that again please...")
+            query = self.takeCommand()
         return query

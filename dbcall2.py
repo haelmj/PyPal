@@ -50,7 +50,7 @@ class Dtbase:
         return
 
     def setupMail(self, email, password, uname):
-        Dtbase.cursor.execute('update AI_USER.INFO set Email = ? and EmailPassword = ? where Name = ?', (email, password, uname))
+        Dtbase.cursor.execute('exec mail ?, ?, ?', (email, password, uname))
         Dtbase.conn.commit()
         return
 

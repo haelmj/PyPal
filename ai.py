@@ -8,8 +8,8 @@ import pyautogui
 import psutil
 import dbcall2 as d
 import time
-from services.entertainment import music, jokes
-from services.popup import popup
+from entertainment import music, jokes
+from assets.popup import popup, passpopup
 
 db = d.Dtbase()
 db.queryDb()
@@ -35,7 +35,7 @@ def takeCommand():
     except Exception as e:
         print(e)
         speak("Say that again please...")
-        takeCommand()
+        query = takeCommand()
     return query
 
 def wishMe():
@@ -80,7 +80,7 @@ def setupMail(username):
     email_address = popup('Email', 'Please type in your gmail address!')
     speak('''Please enter your password. If you have set up two factor authentication on your google account, then this should be your app password.\
         Otherwise you should enter your gmail password.''')
-    email_password = popup('Password', 'Password:')
+    email_password = passpopup('Password', 'Password:')
     speak('If you used your gmail password, please ensure that you have configured your google account to accept connections from less secure apps!!')
     db.setupMail(email_address, email_password, username)
     return
@@ -107,6 +107,8 @@ def setupUser():
     user_choice = takeCommand()
     if user_choice == 'yes':
         setupMail(user_name)
+        db.queryDb()
+        userLogin()
     else:
         speak('Skipping Mail Configuration...')
         speak("If you would like to configure at a later time, say 'Configure Mail'")
@@ -140,7 +142,7 @@ def dbCheck():
         setupUser()
     else:
         loginsuccess = userLogin()
-    return loginsuccess  
+        return loginsuccess  
 
 
 if __name__ == "__main__":
@@ -202,4 +204,24 @@ if __name__ == "__main__":
 # configure email for user
 # configure memory on data function
 
+#possible add ons
+
+#         elif 'remember that' in query:
+#             speak('What should I remember?')
+#             data = takeCommand()
+#             speak('You said I should remember that' + data)
+#             speak('Did I get that right?')
+#             confirm = takeCommand()
+#             if confirm == 'yes' or confirm == 'yeah':
+#                 remember = open('data.txt', 'w')
+#                 remember.write(data)
+#                 remember.close()
+#                 speak('Your data has been committed to memory!')
+#             elif confirm == 'no':
+#                 speak('Oops, Sorry about that!Try again')
+
+#         elif 'Did you remember anything' in query:
+#             remember = open('data.txt', 'r')
+#             speak('You asked me to remember that ' + remember.read()) #modify to say something different if nothing was remembered            
+        
     
