@@ -1,5 +1,4 @@
-import pyodbc
-import pandas as pd 
+import pyodbc 
 
 class Dtbase:
     conn = pyodbc.connect('Driver={SQL Server};'
@@ -13,6 +12,8 @@ class Dtbase:
     username = ''
     passcode = ''
     memory = []
+    email = ''
+    emailpass = ''
 
     def __init__(self):
         self.cursor = Dtbase.cursor
@@ -37,7 +38,15 @@ class Dtbase:
             
             query = ('select Memory from AI_USER.DATA')
             for row in Dtbase.cursor.execute(query):
-                self.memory.append(row[0])    
+                self.memory.append(row[0])
+
+            query = ('select Email from AI_USER.INFO')
+            for row in Dtbase.cursor.execute(query):
+                Dtbase.email = row[0]
+
+            query = ('select EmailPassword from AI_USER.INFO')
+            for row in Dtbase.cursor.execute(query):
+                Dtbase.emailpass = row[0]                
         return
 
     def dbreset(self):

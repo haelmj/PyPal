@@ -4,12 +4,15 @@ from email.message import EmailMessage
 from assets.fileexplorer import fileExplorer
 import filetype
 from final import AI 
-
+import pyautogui
+import datetime
+import time
+import psutil
 
 class Services(AI):
     def mailService(self, subject, receiver, content):
-        email_address = os.environ.get('EMAIL_USER')
-        email_password = os.environ.get('EMAIL_PASS')
+        email_address = AI.db.email
+        email_password = AI.db.emailpass
 
         msg = EmailMessage()
         msg['Subject'] = subject
@@ -22,7 +25,8 @@ class Services(AI):
         
         if attachcontent.lower() == 'yes':
             try:
-                attachcount = int(input('How many files do you want to attach? '))
+                self.speak('How many files do you want to attach? ')
+                attachcount = int(self.takeCommand())
                 attachments = 0
                 while attachments < attachcount:
                     file_path = fileExplorer()
@@ -44,4 +48,29 @@ class Services(AI):
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(email_address, email_password)
             smtp.send_message(msg)
+        self.speak('Your email has been sent!')
+        return
+        
+    def clock(self):
+        Time = datetime.datetime.now().strftime("%H:%M:%S")
+        self.speak(f"The current time is {Time}")
+        return
+
+    def date(self):
+        year = int(datetime.datetime.now().year)
+        month = int(datetime.datetime.now().month)
+        day = int(datetime.datetime.now().day)
+        self.speak(f"The current date is {day}, {month}, {year}")
+        return
+
+    def screenshot(self):
+        img = pyautogui.screenshot()
+        img.save('C:\\projects\\AI\\screenshots\\ss.png') # alter process
+        return
+
+    def cpu(self):
+        usage = str(psutil.cpu_percent())
+        battery = psutil.sensors_battery()
+        self.speak(f'CPU is at {usage}')
+        self.speak('Battery is at ' + battery.percent)
         return

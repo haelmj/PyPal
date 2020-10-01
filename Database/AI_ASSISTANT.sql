@@ -64,7 +64,7 @@ delete from AI_USER.INFO
 delete from AI_USER.DATA
 end
 go
-exec dbreset
+
 --setup app
 create procedure setup
 @Aname varchar(20),
@@ -98,4 +98,5 @@ as
 declare @email varchar(30)
 declare @password nvarchar(100)
 select Email from inserted
+--incomplete
 go

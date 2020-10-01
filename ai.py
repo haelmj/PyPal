@@ -6,7 +6,7 @@ import webbrowser as wb
 import os
 import pyautogui
 import psutil
-import dbcall2 as d
+import dbcall as d
 import time
 from entertainment import music, jokes
 from assets.popup import popup, passpopup
@@ -83,6 +83,8 @@ def setupMail(username):
     email_password = passpopup('Password', 'Password:')
     speak('If you used your gmail password, please ensure that you have configured your google account to accept connections from less secure apps!!')
     db.setupMail(email_address, email_password, username)
+    time.sleep(5)
+    db.queryDb()
     return
 
 def setupUser():
