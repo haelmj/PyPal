@@ -8,7 +8,7 @@ import pyautogui
 import psutil
 import dbcall as d
 import time
-from entertainment import music, jokes
+
 from assets.popup import popup, passpopup
 
 db = d.Dtbase()
@@ -179,10 +179,10 @@ if __name__ == "__main__":
             elif 'restart' in query:
                 os.system('shutdown /r /t 1')
             
-            elif 'play songs' in query:
-                music()
-            elif 'make a joke' in query:
-                jokes()
+            # elif 'play songs' in query:
+            #     music()
+            # elif 'make a joke' in query:
+            #     jokes()
             elif 'take a screenshot' in query:
                 screenshot()
                 speak('Your screenshot has been taken!!!')

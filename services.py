@@ -11,6 +11,7 @@ import psutil
 import pyjokes
 
 class Services(AI):
+    # send email using google mail
     def mailService(self, subject, receiver, content):
         email_address = AI.db.email
         email_password = AI.db.emailpass
@@ -66,7 +67,7 @@ class Services(AI):
 
     def screenshot(self):
         img = pyautogui.screenshot()
-        img.save('C:\\projects\\AI\\screenshots\\ss.png') # alter process
+        img.save('C:\\projects\\AI\\screenshots\\ss.png')
         return
 
     def cpu(self):
@@ -75,6 +76,7 @@ class Services(AI):
         self.speak(f'CPU is at {usage}')
         self.speak('Battery is at ' + battery.percent)
         return
+    
     def music(self):
         songs_dir = 'C:/Users/Michael/Music'
         files = os.listdir(songs_dir)
@@ -89,3 +91,7 @@ class Services(AI):
     
     def jokes(self):
         return (pyjokes.get_joke())
+
+    def memory(self):
+        
+        return

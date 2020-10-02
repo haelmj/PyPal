@@ -95,8 +95,16 @@ create trigger PassEncrypt
 on AI_USER.INFO
 after insert
 as
-declare @email varchar(30)
+declare @pswd nvarchar(max) = 'mypassword';
+declare @salt varbinary(4) = crypt_gen_random(4);
+declare @hash varbinary(max);
+set @hash = 0x0200 + @salt + HASHBYTES('SHA2_512', CAST(@pswd as varbinary(max)) + @salt);
+
+print @salt
+select @hash as Hashvalue, PWDCOMPARE(@pswd, @hash) as IsPasswordHash;
+
+declare @name varchar(30)
 declare @password nvarchar(100)
-select Email from inserted
+
 --incomplete
 go

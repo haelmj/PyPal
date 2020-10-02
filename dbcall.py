@@ -54,7 +54,7 @@ class Dtbase:
         return
 
     def setupApp(self, aname, uname, password):
-        Dtbase.cursor.execute('exec setup ?, ?, ?', (aname, uname, password)) # add insert statement 
+        Dtbase.cursor.execute('exec setup ?, ?, ?', (aname, uname, password)) 
         Dtbase.conn.commit()
         return
 
@@ -67,5 +67,8 @@ class Dtbase:
         Dtbase.cursor.execute('insert into AI_USER.DATA values ?', (memdata))
         Dtbase.conn.commit()
         return
+    def memoryCall(self):
+        
+        pass
 
 Dtbase().queryDb()
