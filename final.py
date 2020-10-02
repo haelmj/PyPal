@@ -131,7 +131,7 @@ class Action(AI):
             self.userLogin()        
         return
 
-    def dbCheck():
+    def dbCheck(self):
         if AI.db.ai_name == '' or AI.db.username == '':
             AI.db.dbreset()
             self.setupUser()

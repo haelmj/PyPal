@@ -8,6 +8,7 @@ import pyautogui
 import datetime
 import time
 import psutil
+import pyjokes
 
 class Services(AI):
     def mailService(self, subject, receiver, content):
@@ -74,3 +75,17 @@ class Services(AI):
         self.speak(f'CPU is at {usage}')
         self.speak('Battery is at ' + battery.percent)
         return
+    def music(self):
+        songs_dir = 'C:/Users/Michael/Music'
+        files = os.listdir(songs_dir)
+        songs = []
+        for file in files:
+            try:
+                if filetype.is_audio(os.path.join(songs_dir, file)):
+                    songs.append(file)
+            except PermissionError:
+                continue
+        os.startfile(os.path.join(songs_dir, songs[0])) 
+    
+    def jokes(self):
+        return (pyjokes.get_joke())

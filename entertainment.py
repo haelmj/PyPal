@@ -4,7 +4,7 @@ import pyjokes
 
 
 def music():
-    songs_dir = 'C:/Users/Michael J/Music'
+    songs_dir = 'C:/Users/Michael/Music'
     files = os.listdir(songs_dir)
     songs = []
     for file in files:
