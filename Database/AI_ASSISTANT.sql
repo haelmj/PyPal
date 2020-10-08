@@ -16,10 +16,10 @@ go
 
 create table AI_USER.INFO(
 Userid int constraint u_id primary key identity(1,1),
-Name varchar(20) not null,
-Passcode varchar(70) not null,
+Name varchar(30) not null,
+Passcode nvarchar(max) not null,
 Email varchar(30),
-EmailPassword nvarchar(100))
+EmailPassword nvarchar(max))
 go
 
 create table AI_USER.DATA(
@@ -93,18 +93,25 @@ go
 --create trigger for password encryption
 create trigger PassEncrypt
 on AI_USER.INFO
-after insert
+Instead of insert
 as
-declare @pswd nvarchar(max);
-declare @salt varbinary(4) = crypt_gen_random(4);
-declare @hash varbinary(max);
+begin
+declare @name varchar(30)
+declare @pswd nvarchar(max)
+declare @salt varbinary(4) = crypt_gen_random(4)
+declare @hash varbinary(max)
+set @name = (select Name from inserted)
+set @pswd = (select Passcode from inserted)
 set @hash = 0x0200 + @salt + HASHBYTES('SHA2_512', CAST(@pswd as varbinary(max)) + @salt);
+insert into AI_USER.INFO(Name, Passcode) values(@name, @hash)
+end
+go
 
-print @salt
+
+
 select @hash as Hashvalue, PWDCOMPARE(@pswd, @hash) as IsPasswordHash;
 
-declare @name varchar(30)
-declare @password nvarchar(100)
 
---incomplete
-go
+
+
+
