@@ -10,7 +10,6 @@ class Dtbase:
 
     ai_name = ''
     username = ''
-    passcode = ''
     memory = []
     email = ''
     emailpass = ''
@@ -31,10 +30,6 @@ class Dtbase:
             query = ('select Name from AI_USER.INFO')
             for row in Dtbase.cursor.execute(query):
                 Dtbase.username = row[0]
-            
-            query = ('select Passcode from AI_USER.INFO')
-            for row in Dtbase.cursor.execute(query):
-                Dtbase.passcode = row[0]
             
             query = ('select Memory from AI_USER.DATA')
             for row in Dtbase.cursor.execute(query):
@@ -67,6 +62,13 @@ class Dtbase:
         Dtbase.cursor.execute('insert into AI_USER.DATA values ?', (memdata))
         Dtbase.conn.commit()
         return
+    
+    def pwdcompare(self, password):
+        query = Dtbase.cursor.execute('exec pwcompare ?', (password))
+        for row in query:
+            is_password = row[0] 
+        return is_password
+
     def memoryCall(self):
         
         pass

@@ -107,9 +107,18 @@ insert into AI_USER.INFO(Name, Passcode) values(@name, @hash)
 end
 go
 
+--password validation
+create procedure pwcompare
+@pwd varchar(max)
+as
+begin
+declare @hash nvarchar(max)
+set @hash = (select Passcode from AI_USER.INFO) 
+select PWDCOMPARE(@pwd, @hash) as IsPasswordHash;
+end
+go
 
 
-select @hash as Hashvalue, PWDCOMPARE(@pswd, @hash) as IsPasswordHash;
 
 
 

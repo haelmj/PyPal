@@ -71,11 +71,12 @@ class Action(AI):
         logincount = 1
         loginsuccess = False
         while loginsuccess == False and logincount < 5:
-            if pwd == AI.db.passcode:
+            value = AI.db.pwdcompare(pwd)
+            if value == 1:
                 speak('Login Attempt Successful!')
                 loginsuccess = True
                 self.wishMe()
-            elif (pwd != AI.db.passcode): 
+            elif (value != 1): 
                 speak("That wasn't the passcode you have 3 attempts left!")
                 logincount += 1
                 speak('Please State The Passcode')
@@ -138,3 +139,6 @@ class Action(AI):
         else:
             loginsuccess = self.userLogin()
             return loginsuccess  
+
+
+Action().dbCheck()
