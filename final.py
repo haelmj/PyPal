@@ -1,16 +1,9 @@
-import pyttsx3 # pip install pyttsx3
-import datetime
-import speech_recognition as sr # pip install SpeechRecognition
-import wikipedia #pip install wikipedia
-import smtplib
-import webbrowser as wb
-import os
+import pyttsx3
+import speech_recognition as sr 
 import dbcall as db
+import datetime
 import time
-from assets.fileexplorer import fileExplorer
 from assets.popup import passpopup, popup
-# import psuti
-
 
 
 class AI:
@@ -60,13 +53,12 @@ class Action(AI):
         elif hour >= 18 and hour < 24:
             speak("Good evening!")
         else:
-            speak("Having trouble sleeping?") 
+            speak("It's quite late to be awake!") 
         speak(f"{ai_call} is ready to help you! What would you like?")
 
     def userLogin(self):
         speak = self.speak
         speak(f'Login Attempt! {AI.db.username}, please state the passcode!')
-        # add code to take the passcode and compare it with what is in the database
         pwd = self.takeCommand().lower()
         logincount = 1
         loginsuccess = False
@@ -76,6 +68,7 @@ class Action(AI):
                 speak('Login Attempt Successful!')
                 loginsuccess = True
                 self.wishMe()
+                
             elif (value != 1): 
                 speak("That wasn't the passcode you have 3 attempts left!")
                 logincount += 1
@@ -141,4 +134,3 @@ class Action(AI):
             return loginsuccess  
 
 
-Action().dbCheck()

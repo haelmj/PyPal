@@ -9,6 +9,9 @@ import datetime
 import time
 import psutil
 import pyjokes
+import wikipedia
+import webbrowser as wb
+
 
 class Services(AI):
     # send email using google mail
@@ -68,13 +71,14 @@ class Services(AI):
     def screenshot(self):
         img = pyautogui.screenshot()
         img.save('C:\\projects\\AI\\screenshots\\ss.png')
+        self.speak('Screenshot captured')
         return
 
     def cpu(self):
         usage = str(psutil.cpu_percent())
         battery = psutil.sensors_battery()
         self.speak(f'CPU is at {usage}')
-        self.speak('Battery is at ' + battery.percent)
+        self.speak(f'Battery is at ' + {battery.percent})
         return
     
     def music(self):
@@ -89,8 +93,22 @@ class Services(AI):
                 continue
         os.startfile(os.path.join(songs_dir, songs[0])) 
     
-    def jokes(self):
-        return (pyjokes.get_joke())
+    def joke(self):
+        self.speak(pyjokes.get_joke())
+        return
+
+    def wikisearch(self, query):
+        AI().speak("Searching...")
+        query = query.replace("search wikipedia for", "")
+        result = wikipedia.summary(query, sentences=2)
+        print(result)
+        self.speak(result)
+
+    def chromesearch(self):
+        self.speak('What should I search for?')
+        chromepath = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+        search = self.takeCommand().lower() 
+        wb.get(chromepath).open_new_tab(search)
 
     def memory(self):
         
