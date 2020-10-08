@@ -1,9 +1,6 @@
 import os
 import smtplib
-from email.message import EmailMessage
-from assets.fileexplorer import fileExplorer
 import filetype
-from final import AI 
 import pyautogui
 import datetime
 import time
@@ -11,7 +8,9 @@ import psutil
 import pyjokes
 import wikipedia
 import webbrowser as wb
-
+from ai import AI 
+from email.message import EmailMessage
+from assets.fileexplorer import fileExplorer
 
 class Services(AI):
     # send email using google mail
