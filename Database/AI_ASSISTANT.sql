@@ -95,7 +95,7 @@ create trigger PassEncrypt
 on AI_USER.INFO
 after insert
 as
-declare @pswd nvarchar(max) = 'mypassword';
+declare @pswd nvarchar(max);
 declare @salt varbinary(4) = crypt_gen_random(4);
 declare @hash varbinary(max);
 set @hash = 0x0200 + @salt + HASHBYTES('SHA2_512', CAST(@pswd as varbinary(max)) + @salt);
