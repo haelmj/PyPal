@@ -1,2 +1,19 @@
-.vscode/
-__pycache__/
+# System created folders #
+#############
+.vscode
+__pycache__
+
+# Virtual environment folder #
+#############
+env
+
+# Packages #
+##########
+*.pyc
+*.whl
+
+# Don't ignore assets files #
+##########
+!assets/__init__.py
+!assets/fileexplorer.py
+!assets/popup.py
