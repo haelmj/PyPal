@@ -21,6 +21,8 @@ if __name__ == "__main__":
                 services.wikisearch(query)
             elif 'search in chrome' in query:
                 services.chromesearch()
+            elif 'send mail' in query:
+                services.mailService()
             elif 'lock' in query:
                 os.system('shutdown -l')
             elif 'shutdown' in query:
