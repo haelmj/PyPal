@@ -1,10 +1,12 @@
 from ai import AI, Action
 from services import Services
+from dbcall import Dtbase
 import os
 
 services = Services()
 ai = AI()
 action = Action()
+db = Dtbase()
 
 
 if __name__ == "__main__":
@@ -23,6 +25,8 @@ if __name__ == "__main__":
                 services.chromesearch()
             elif 'send mail' in query:
                 services.mailService()
+            elif query.startswith('remember'):
+                db.remember(query.replace('remember', ''))
             elif 'lock' in query:
                 os.system('shutdown -l')
             elif 'shutdown' in query:
