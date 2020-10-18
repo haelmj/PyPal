@@ -12,3 +12,8 @@ def passpopup(head, prompt):
     ROOT.withdraw()
     USER_INP = simpledialog.askstring(title=head, prompt=prompt, show='*')
     return USER_INP
+
+# def choice(head, prompt):
+#     ROOT =tk.TK()
+#     ROOT.withdraw()
+#     USER_INP = simpledialog.

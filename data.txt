@@ -1,5 +1,0 @@
-AI:
-speak
-takecommand
-sendEmail
-screenshot
