@@ -3,8 +3,8 @@ import speech_recognition as sr
 import dbcall as db
 import datetime
 import time
+import random
 from assets.popup import passpopup, popup
-
 
 class AI:
     engine = pyttsx3.init()
@@ -20,6 +20,13 @@ class AI:
         AI.engine.runAndWait()
 
     def takeCommand(self):
+        errors=[
+        "I don't know what you mean!",
+        "Excuse me?",
+        "Can you repeat it please?",
+        "Say that again please!",
+        "I didn't get that"
+    ]
         r = sr.Recognizer() # initialize the listener
         m = sr.Microphone()
         with m as source: # set listening device to microphone
@@ -34,7 +41,8 @@ class AI:
         
         except Exception as e:
             print(e)
-            self.speak("Say that again please...")
+            error = random.choice(errors)
+            self.speak(error)
             query = self.takeCommand()
         return query
 
