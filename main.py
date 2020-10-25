@@ -49,17 +49,7 @@ if __name__ == "__main__":
         ai.speak('You must login to proceed')
         action.dbCheck()
 
-# ToDO
-# verify functions
-# Pass loginsuccess for external use
-# Alter functions with embedded paths
-# Encrypt password and reconfirm password validation
-# Enable password recovery
-# configure email for user
-# configure memory on data function
-
-#possible add ons
-
+# can replace the other function in absence of database
 #         elif 'remember that' in query:
 #             speak('What should I remember?')
 #             data = takeCommand()
