@@ -16,10 +16,20 @@ class AI:
 
     @staticmethod
     def speak(audio):
+        """Reads out the audio parameter
+        
+        Parameters:
+            audio(string): Information to call out
+        """
         AI.engine.say(audio)
         AI.engine.runAndWait()
 
     def takeCommand(self):
+        """Receives voice input from user
+        
+        Returns:
+            query(string): User voice input
+        """
         errors=[
         "I don't know what you mean!",
         "Excuse me?",
@@ -27,16 +37,19 @@ class AI:
         "Say that again please!",
         "I didn't get that"
     ]
-        r = sr.Recognizer() # initialize the listener
+        # initialize the listener
+        r = sr.Recognizer() 
         m = sr.Microphone()
-        with m as source: # set listening device to microphone
+        #  set listening device to microphone
+        with m as source: 
             print("Listening...")
-            r.pause_threshold = 1 # delay one second from program start before listening
+            # delay one second from program start before listening
+            r.pause_threshold = 1 
             audio= r.listen(source)
 
         try:
             print("Voice Recognition in process...")
-            query = r.recognize_google(audio, language='en-UK') #listen to audio
+            query = r.recognize_google(audio, language='en-UK')
             print(query)
         
         except Exception as e:
@@ -49,6 +62,7 @@ class AI:
 class Action(AI):
     
     def wishMe(self):
+        """Greet User"""
         speak = self.speak
         user = AI.db.username
         ai_call = AI.db.ai_name
@@ -65,6 +79,11 @@ class Action(AI):
         speak(f"{ai_call} is ready to help you! What would you like?")
 
     def userLogin(self):
+        """Performs login to user account.
+        
+        Returns:
+            loginsuccess(boolean): Boolean indicating whether the login was successful or not.
+        """
         speak = self.speak
         speak(f'Login Attempt! {AI.db.username}, please state the passcode!')
         pwd = self.takeCommand().lower()
@@ -89,6 +108,11 @@ class Action(AI):
         return loginsuccess
 
     def setupMail(self, username):
+        """Setups login credentials for gmail account in the Database
+        
+        Parameters:
+            username(string): username stored in the database
+        """
         speak = self.speak
         speak('Please enter your gmail address!')
         email_address = popup('Email', 'Please type in your gmail address!')
@@ -102,6 +126,7 @@ class Action(AI):
         return
 
     def setupUser(self):
+        """Create user account and save to database"""
         speak = self.speak
         speak("Hello User. I will be your virtual assistant. I'd like to get to know you! What is your name?")
         user_name = self.takeCommand()
@@ -134,6 +159,11 @@ class Action(AI):
         return
 
     def dbCheck(self):
+        """Checks if Database has been effectively setup and initiates a login attempt
+        
+        Returns:
+            loginsuccess(boolean): Boolean indicating whether the login was successful or not.
+        """
         if AI.db.ai_name == '' or AI.db.username == '':
             AI.db.dbreset()
             self.setupUser()

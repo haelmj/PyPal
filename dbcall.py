@@ -1,4 +1,5 @@
 import pyodbc 
+import pandas
 
 class Dtbase:
     conn = pyodbc.connect('Driver={SQL Server};'
@@ -20,8 +21,6 @@ class Dtbase:
         
     
     def queryDb(self):
-#       cursor.execute('select AI_NAME from ASSISTANT.AI')
-#       for row in cursor: Dtbase.ai_name = row
         with Dtbase.conn:    
             query = ('select AI_NAME from ASSISTANT.AI')
             for row in Dtbase.cursor.execute(query):
@@ -59,7 +58,7 @@ class Dtbase:
         return
 
     def remember(self, memdata):
-        Dtbase.cursor.execute('insert into AI_USER.DATA values ?', (memdata))
+        Dtbase.cursor.execute('insert into AI_USER.DATA(Memory) values ?', (memdata))
         Dtbase.conn.commit()
         return
     
@@ -70,7 +69,7 @@ class Dtbase:
         return is_password
 
     def memoryCall(self):
-        
-        pass
+        query = ('select Memory, ModifiedAt from AI_USER.DATA')
+        print(pandas.read_sql_query(query, Dtbase.conn, parse_dates=['ModifiedAt']))
 
-Dtbase().queryDb()
+Dtbase().memoryCall()
