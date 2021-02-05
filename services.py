@@ -14,13 +14,22 @@ from assets.fileexplorer import fileExplorer
 from assets.popup import popup
 
 
+USERPROFILE = os.environ['USERPROFILE']
+
 class Services(AI):
-    # send email using google mail
+    """
+    Main functionalities of the Application
+    """
     def mailService(self):
+        """
+        Creates and sends out emails using google service
+        """
+        # retrieve mail login details from database
         email_address = AI.db.email
         email_password = AI.db.emailpass
 
         msg = EmailMessage()
+        # Collect user input to compose mail
         self.speak('What is the subject of your message?')
         msg['Subject'] = self.takeCommand()
         msg['From'] = email_address
@@ -40,7 +49,7 @@ class Services(AI):
                 self.speak("I couldn't understand your response. Please use either the word type or speak!")
                 continue
         msg.set_content(content)
-
+        
         self.speak(('Do you want to attach a file?'))
         attachcontent = self.takeCommand()
 
@@ -106,7 +115,7 @@ class Services(AI):
         return
 
     def music(self):
-        songs_dir = 'C:/Users/Michael/Music'
+        songs_dir = os.path.join(USERPROFILE, 'Music')
         files = os.listdir(songs_dir)
         songs = []
         for file in files:
@@ -118,7 +127,7 @@ class Services(AI):
         os.startfile(os.path.join(songs_dir, songs[0]))
 
     def joke(self):
-        self.speak(pyjokes.get_joke())
+        self.speak(pyjokes.get_joke(category='all'))
         return
 
     def wikisearch(self, query):

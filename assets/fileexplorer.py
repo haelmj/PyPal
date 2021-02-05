@@ -1,10 +1,13 @@
 from tkinter import Tk     
 from tkinter.filedialog import askopenfilename
-import filetype
 
 
 def fileExplorer():
-    Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
-    file_path= askopenfilename() # show an "Open" dialog box and return the path to the selected file
-    return file_path
+    """Returns file path
     
+    Prompts use to select a file from an Open dialog box
+    """
+    # disable full GUI, prevent root window from appearing
+    Tk().withdraw() 
+    file_path= askopenfilename()
+    return file_path

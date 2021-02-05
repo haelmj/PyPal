@@ -20,8 +20,6 @@ class Dtbase:
         
     
     def queryDb(self):
-#       cursor.execute('select AI_NAME from ASSISTANT.AI')
-#       for row in cursor: Dtbase.ai_name = row
         with Dtbase.conn:    
             query = ('select AI_NAME from ASSISTANT.AI')
             for row in Dtbase.cursor.execute(query):
