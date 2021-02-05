@@ -25,8 +25,16 @@ if __name__ == "__main__":
                 services.chromesearch()
             elif 'send mail' in query:
                 services.mailService()
-            elif query.startswith('remember'):
-                db.remember(query.replace('remember', ''))
+            elif 'memory mode' in query:
+                ai.speak('Switching to memory mode!!!')
+                ai.speak('Begin a phrase with the word remember followed by what you would like me to remember.')
+                query = ai.takeCommand().lower()
+                if query.startswith('remember'):
+                    db.remember(query.replace('remember', ''))
+                    ai.speak('Memory saved! Leaving Memory mode')
+                elif query.startswith('retrieve'):
+                    # implement natural language processing, retrieve memory from database by date and time
+                    pass
             elif 'lock' in query:
                 os.system('shutdown -l')
             elif 'shutdown' in query:
